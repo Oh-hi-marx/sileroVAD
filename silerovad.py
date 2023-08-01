@@ -30,6 +30,7 @@ class Silero_vad :
         wav = self.read_audio(wavfile, sampling_rate=self.SAMPLING_RATE)
         speech_timestamps = self.get_speech_timestamps(wav, self.model, sampling_rate=self.SAMPLING_RATE)
         speech_timestamps = self.frames2seconds(speech_timestamps)
+        self.model.reset_states()
         return speech_timestamps
     
     def frames2seconds(self,timestamps):
@@ -83,7 +84,7 @@ class Silero_vad :
                     prob = (avgProb + maxProb) / 2 #mean of max and avarge prob as overall probability
                     speech_timestamps.append({"start": start, "end": end, "prob": prob})#, "avgProb": avgProb, "maxProb": maxProb})
                     started = 0
-                
+        self.model.reset_states()
         return speech_timestamps
         
 if __name__ == "__main__":
