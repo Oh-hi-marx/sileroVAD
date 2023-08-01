@@ -84,7 +84,16 @@ class Silero_vad :
                     prob = (avgProb + maxProb) / 2 #mean of max and avarge prob as overall probability
                     speech_timestamps.append({"start": start, "end": end, "prob": prob})#, "avgProb": avgProb, "maxProb": maxProb})
                     started = 0
-        self.model.reset_states()
+                    probs = []
+        if(len(probs)>0):
+            end = time
+            avgProb = round(sum(probs)/len(probs),3)
+            maxProb = max(probs)
+            prob = (avgProb + maxProb) / 2 #mean of max and avarge prob as overall probability
+            speech_timestamps.append({"start": start, "end": end, "prob": prob})#, "avgProb": avgProb, "maxProb": maxProb})
+            started = 0
+        self.model.reset_states()                    
+
         return speech_timestamps
         
 if __name__ == "__main__":
